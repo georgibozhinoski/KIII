@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+
+  #  PostgreSQL Database
+  db:
+    image: postgres:15
+    container_name: course-suggestion-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2453
+      POSTGRES_DB: Course-Suggestion-App
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Python Recommendation Engine
+  recommender:
+    build: ./course-recommender-py
+    container_name: course-recommender
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #  Spring Boot Backend 
+  backend:
+    build: ./CourseSuggestionApp
+    container_name: course-backend
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - db
+      - recommender
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  #  React Frontend 
+  frontend:
+    build: ./course-suggestion-app-react
+    container_name: course-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  app-network:
+    driver: bridge

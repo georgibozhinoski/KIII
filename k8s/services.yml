@@ -1,0 +1,40 @@
+#Backend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: course-suggestion
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 9090
+      targetPort: 9090
+
+---
+#Recommender Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommender
+  namespace: course-suggestion
+spec:
+  selector:
+    app: recommender
+  ports:
+    - port: 5000
+      targetPort: 5000
+
+---
+#Frontend Service 
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: course-suggestion
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: course-suggestion
+data:
+  SPRING_PROFILES_ACTIVE: prod
+  DB_URL: jdbc:postgresql://db:5432/Course-Suggestion-App
+  DB_USERNAME: postgres
+  PY_RECOMMENDER_URL: recommender
+  PY_RECOMMENDER_PORT: "5000"

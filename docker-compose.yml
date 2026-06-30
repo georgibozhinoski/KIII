@@ -46,7 +46,7 @@ services:
     build: ./course-suggestion-app-react
     container_name: course-frontend
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
     networks:
